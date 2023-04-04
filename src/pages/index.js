@@ -7,11 +7,31 @@ import { useRef, useState } from "react";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const contentRef = useRef(null);
-  const changeInnerPage = (path) => {
-    const newData = { path: path };
+  const [currentFRAME, setCurrentFRAME] = useState("parasut");
+  const [src, setSRC] = useState("http://localhost:3001");
+  const [alperenSRC, setAlperenSRC] = useState("http://alperensozen.com");
 
+  const parasutURL = "http://localhost:3001";
+  const contentRef = useRef(null);
+  const alperensozenREF = useRef(null);
+
+  const changeInnerPage = (path) => {
+    const newData = { path: parasutURL + path };
     contentRef.current.contentWindow.postMessage(newData, "*");
+  };
+
+  const showNova = (path) => {
+    setAlperenSRC(path);
+  };
+
+  const handleIframePageChange = (app, path) => {
+    setCurrentFRAME(app);
+
+    if (app === "parasut") {
+      changeInnerPage(path);
+    } else if (app === "nova") {
+      showNova(path);
+    }
   };
 
   return (
@@ -28,18 +48,47 @@ export default function Home() {
           <div className={styles.menuContent}>
             <ul>
               <li>
-                <button onClick={() => changeInnerPage("/contact")}>
+                <button
+                  onClick={() => handleIframePageChange("parasut", "/contact")}
+                >
                   Contact Page
                 </button>
               </li>
               <li>
-                <button onClick={() => changeInnerPage("/about-us")}>
+                <button
+                  onClick={() => handleIframePageChange("parasut", "/about-us")}
+                >
                   About Us
                 </button>
               </li>
               <li>
-                <button onClick={() => changeInnerPage("/clients")}>
+                <button
+                  onClick={() => handleIframePageChange("parasut", "/clients")}
+                >
                   Clients Page
+                </button>
+              </li>
+
+              <hr />
+              <li>
+                <button
+                  onClick={() =>
+                    handleIframePageChange(
+                      "nova",
+                      "http://alperensozen.com/onedose"
+                    )
+                  }
+                >
+                  Change Nova's Path
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() =>
+                    handleIframePageChange("nova", "http://alperensozen.com/")
+                  }
+                >
+                  Change Nova's 2
                 </button>
               </li>
             </ul>
@@ -48,12 +97,27 @@ export default function Home() {
 
         <div className={styles.iframeContainer}>
           <iframe
+            style={{
+              visibility: currentFRAME != "nova" ? "visible" : "hidden",
+            }}
             name="iaps"
             ref={contentRef}
             className={styles.iframeClass}
-            height={"100%"}
+            height={"50%"}
             width={"100%"}
-            src="http://localhost:3001"
+            src={src}
+          ></iframe>
+
+          <iframe
+            style={{
+              visibility: currentFRAME != "parasut" ? "visible" : "hidden",
+            }}
+            name="alperensozen"
+            ref={alperensozenREF}
+            className={styles.iframeClass}
+            height={"50%"}
+            width={"100%"}
+            src={alperenSRC}
           ></iframe>
         </div>
       </main>
