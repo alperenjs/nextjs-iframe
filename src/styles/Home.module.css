@@ -1,9 +1,4 @@
 .main {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  padding: 6rem;
   min-height: 100vh;
 }
 
@@ -97,7 +92,7 @@
 
 .center::before,
 .center::after {
-  content: '';
+  content: "";
   left: 50%;
   position: absolute;
   filter: blur(45px);
@@ -125,7 +120,7 @@
 
 .thirteen::before,
 .thirteen::after {
-  content: '';
+  content: "";
   position: absolute;
   z-index: -1;
 }
@@ -275,4 +270,36 @@
   to {
     transform: rotate(0deg);
   }
+}
+
+.main {
+  display: flex;
+}
+
+.sideBar {
+  border: 2px solid lightblue;
+  height: 100vh;
+  width: 300px;
+  padding: 20px;
+}
+
+.menuContent ul li{
+  list-style: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.iframeContainer {
+  position: relative;
+  height: 100vh;
+  width: calc(100vw - 300px);
+  margin-left: auto;
+}
+
+.iframeContainer .iframeClass {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
