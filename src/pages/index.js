@@ -7,10 +7,11 @@ import { useRef, useState } from "react";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const [iframSrc, setIframeSrc] = useState("http://localhost:3001");
   const contentRef = useRef(null);
   const changeInnerPage = (path) => {
-    setIframeSrc("http://localhost:3001" + path);
+    const newData = { path: path };
+
+    contentRef.current.contentWindow.postMessage(newData, "*");
   };
 
   return (
@@ -52,7 +53,7 @@ export default function Home() {
             className={styles.iframeClass}
             height={"100%"}
             width={"100%"}
-            src={iframSrc}
+            src="http://localhost:3001"
           ></iframe>
         </div>
       </main>
